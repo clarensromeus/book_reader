@@ -1,6 +1,6 @@
 # Book Reader
 ## Tech stack
-### ReactJs
-### Firebase
-### Typescript
-### Vite
+#### ReactJs
+#### Firebase
+#### Typescript
+#### Vite
