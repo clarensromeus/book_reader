@@ -1,0 +1,23 @@
+.error {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error .errorFrame {
+    display: flex;
+    gap: 5px
+}
+
+.error .errorFrame .errorMessage {
+    font-weight: bolder;
+    font-size: 10px; 
+}
+
+.error .errorFrame .error404 {
+    font-weight: bolder;
+    font-size: 10px;
+}
+
