@@ -37,7 +37,7 @@ const Book: React.FC<IBookProps> = () => {
     {
       title: "Business mindset",
       author: "P. allrich",
-      date: " . a few seconds ago",
+      date: "4 minutes go",
     },
     {
       title: "Producing beats",
