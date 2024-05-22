@@ -1,6 +1,17 @@
 import { getAnalytics } from "firebase/analytics"
 import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
+import { 
+    getFirestore,
+    getDoc,
+    addDoc, 
+    getDocs, 
+    deleteDoc, 
+    updateDoc, 
+    collection,
+    query,
+    FieldValue, 
+    Timestamp
+ } from "firebase/firestore"
 import {
  getAuth, 
  onAuthStateChanged, 
@@ -68,9 +79,18 @@ export {
     signInWithPopup,
     GoogleAuthProvider,
     FacebookAuthProvider,
-    // Database-related imports
+    // cloud firestore database-related imports
     db,
+    getDoc,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    updateDoc,
+    collection,
+    query,
     storage,
+    Timestamp,
+    FieldValue,
     messaging,
     analytics,
 }

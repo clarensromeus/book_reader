@@ -23,7 +23,30 @@
     font-size: 1.7em;
 }
 
-.navbar .logout {
+.navbar .right-side {
+    display: flex;
+    gap: 12px;
+}
+
+.navbar .right-side .user {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+
+.navbar .right-side .user .picture > img {
+    border-radius: 100%;
+}
+
+.navbar .right-side .user .icon > button {
+    padding: 0px;
+    margin: 0px;
+    background-color: white;
+    border: none;
+}
+
+.navbar .right-side .logout {
     border: none;
     padding-block: 6px;
     border-radius: 7px;

@@ -1,7 +1,22 @@
 import * as React from "react";
+// internally crafted imports of resources
 import "../styles/book.css";
-import { bookForms } from "../typings/bookForm";
+import { bookForms, IbookList } from "../typings/bookForm";
 import Navbar from "./Navbar";
+import {
+  getDoc,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  collection,
+  query,
+  Timestamp,
+  db,
+} from "../service/config";
+// exteranl imports of resources
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,6 +29,8 @@ const Book: React.FC<IBookProps> = () => {
     state: "create",
   });
 
+  const [bookList, setBookList] = React.useState<IbookList[]>([]);
+
   const changeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
     setBook((previousBook) => ({
@@ -23,28 +40,41 @@ const Book: React.FC<IBookProps> = () => {
     }));
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(book.title, book.state);
+  const createBook = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "books"), {
+        author: book.author,
+        title: book.title,
+        date_created: Timestamp.fromDate(new Date()),
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const books: { title: string; author: string; date: string }[] = [
-    {
-      title: "Success for life",
-      author: "R. clarens",
-      date: " . a few seconds ago",
-    },
-    {
-      title: "Business mindset",
-      author: "P. allrich",
-      date: "4 minutes go",
-    },
-    {
-      title: "Producing beats",
-      author: "C. jelly",
-      date: " . 1 month ago",
-    },
-  ];
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    createBook();
+  };
+
+  React.useEffect(() => {
+    const allbooks = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "books"));
+        const books = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          date_publish: "1 year ago",
+          id: doc.id,
+        })) as IbookList[];
+
+        setBookList(books);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    allbooks();
+  }, []);
 
   return (
     <>
@@ -99,12 +129,12 @@ const Book: React.FC<IBookProps> = () => {
                 <label htmlFor="search">Search</label>
               </div>
               <div className="books">
-                {books.map((book, index) => (
+                {bookList.map((book, index) => (
                   <div className="bookFrame" key={index}>
                     <div className="left-side">
                       <div className="author-date">
                         <span className="author">{book.author}</span>
-                        <span className="date">{book.date}</span>
+                        <span className="date"> .{book.date_publish}</span>
                       </div>
                       <div className="book-title">
                         <strong className="title">{book.title}</strong>
