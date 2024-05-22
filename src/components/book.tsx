@@ -3,22 +3,15 @@ import * as React from "react";
 import "../styles/book.css";
 import { bookForms, IbookList } from "../typings/bookForm";
 import Navbar from "./Navbar";
-import {
-  getDoc,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  collection,
-  query,
-  Timestamp,
-  db,
-} from "../service/config";
+import { getDocs, addDoc, collection, Timestamp, db } from "../service/config";
+import Update from "./ Update";
+import Delete from "./Delete";
 // exteranl imports of resources
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 interface IBookProps {}
 
@@ -29,7 +22,10 @@ const Book: React.FC<IBookProps> = () => {
     state: "create",
   });
 
+  const [open, setOpen] = React.useState<boolean>(false);
+
   const [bookList, setBookList] = React.useState<IbookList[]>([]);
+  const [bookId, setBookId] = React.useState<string>("");
 
   const changeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
@@ -79,6 +75,7 @@ const Book: React.FC<IBookProps> = () => {
   return (
     <>
       <Navbar />
+      {open && <Update id={bookId} setOpen={setOpen} />}
       <div className="main">
         <div className="bookFrame">
           <div className="title">
@@ -142,11 +139,17 @@ const Book: React.FC<IBookProps> = () => {
                     </div>
                     <div className="right-side">
                       <div className="update">
-                        <FontAwesomeIcon className="upd" icon={faPen} />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpen(true);
+                            setBookId(book.id);
+                          }}
+                        >
+                          <FontAwesomeIcon className="upd" icon={faPen} />
+                        </button>
                       </div>
-                      <div className="delete">
-                        <FontAwesomeIcon className="del" icon={faTrash} />
-                      </div>
+                      <Delete id={book.id} />
                     </div>
                   </div>
                 ))}

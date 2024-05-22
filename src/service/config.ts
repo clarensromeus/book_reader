@@ -10,7 +10,11 @@ import {
     collection,
     query,
     FieldValue, 
-    Timestamp
+    Timestamp,
+    where,
+    orderBy,
+    onSnapshot,
+    doc
  } from "firebase/firestore"
 import {
  getAuth, 
@@ -88,9 +92,14 @@ export {
     updateDoc,
     collection,
     query,
+    where,
+    orderBy,
+    onSnapshot,
     storage,
     Timestamp,
     FieldValue,
+    doc,
+    //
     messaging,
     analytics,
 }

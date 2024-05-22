@@ -36,7 +36,7 @@
 .main .inputCase .create-search .inputText:focus {
     border: 1px solid rgba(237,
             231,
-            225, 0.9);;
+            225, 0.9);
     outline: none;
     border-radius: none;
     border-right: none;
@@ -98,8 +98,19 @@
     background-color: #e8f0fe;
 }
 
+.main .books .bookFrame .right-side .update > button {
+    padding: 0px;
+    border: none;
+    outline: 0px;
+}
 .main .books .bookFrame .right-side .update .upd {
     color: blue;
+}
+
+.main .books .bookFrame .right-side .delete > button {
+    padding: 0px;
+    border: none;
+    outline: 0px;
 }
 
 .main .books .bookFrame .right-side .delete .del {

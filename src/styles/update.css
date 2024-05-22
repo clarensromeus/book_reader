@@ -1,4 +1,4 @@
-.frame {
+.frameforupdate {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -10,7 +10,7 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.frame .updateFrame {
+.frameforupdate .updateFrame {
     width: 500px;
     height: 200px;
     background-color: white;
@@ -19,10 +19,10 @@
     left: 0;
 }
 
-.frame .updateFrame .backbutton {
+.frameforupdate .updateFrame .backbutton {
     position: absolute;
-    top: -3%;
-    left: 96%;
+    top: -3.4%;
+    left: 95%;
     background-color: white;
     width: 34px;
     height: 34px;
@@ -33,8 +33,57 @@
     border: none;
 }
 
-.frame .updateFrame .framecontent {
+.frameforupdate .updateFrame .updateText {
+   margin-inline: 25px;
+   margin-block-start: 17px;
+}
+
+.frameforupdate .updateFrame .updateText .update {
+    font-weight: bolder;
+    font-size: 1.4rem;
+}
+
+.frameforupdate .updateFrame .framecontent {
     width: 100%;
-    padding-inline: 30px;
+    padding-inline: 25px;
     padding-block: 20px;
+}
+
+.frameforupdate .updateFrame .framecontent .title {
+    width: inherit;
+}
+
+.frameforupdate .updateFrame .framecontent .title > span {
+   font-weight: bold;
+   text-transform: capitalize;
+   color: gray;
+}
+
+.frameforupdate .updateFrame .framecontent .title .titleinput {
+    margin-block-start: 10px;
+    width: 87%;
+    padding-block: 12px;
+    border: 1px solid rgba(237,
+                231,
+                225, 0.9);
+}
+
+.frameforupdate .updateFrame .framecontent .title .titleinput:focus {
+    border: 1px solid rgba(237,
+                231,
+                225, 0.9);
+    outline: 0px;
+}
+
+.frameforupdate .updateFrame .updatebutton {
+    padding-block-start: 10px;
+}
+
+.frameforupdate .updateFrame .updatebutton > button {
+    border: none;
+    color: blue;
+    width: 88.5%;
+    padding-block: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
