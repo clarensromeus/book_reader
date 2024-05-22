@@ -1,0 +1,87 @@
+.frame {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.frame .uploadFrame {
+    width: 400px;
+    height: 310px;
+    background-color: white;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.frame .uploadFrame .backbutton {
+    position: absolute;
+    top: -3%;
+    left: 96%;
+    background-color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.frame .uploadFrame .framecontent {
+    width: 100%;
+    padding-inline: 30px;
+    padding-block: 20px;
+}
+
+.frame .uploadFrame .framecontent .divText .uploadText {
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
+
+.frame .uploadFrame .framecontent .upload {
+    margin-top: 7px;
+    width: 85%;
+    height: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(237,
+            231,
+            225, 0.9);
+}
+
+.frame .uploadFrame .framecontent .image {
+    margin-top: 7px;
+    width: 85%;
+    height: 190px;
+    border: 1px solid rgba(237,
+            231,
+            225, 0.9);
+}
+
+.frame .uploadFrame .framecontent .image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.frame .uploadFrame .framecontent .save {
+  width: 92.6%;
+  margin-block-start: 10px;
+}
+
+.frame .uploadFrame .framecontent .save > button {
+    width: inherit;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background-color: blue;
+    padding-block: 8px;
+}
