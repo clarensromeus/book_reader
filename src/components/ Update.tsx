@@ -25,6 +25,7 @@ const Update: React.FC<IUpdateProps> = ({ id, setOpen }) => {
         title: title,
       });
 
+      setOpen(false);
       console.log(book);
     } catch (error) {
       throw new Error(`${error}`);

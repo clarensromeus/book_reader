@@ -3,7 +3,15 @@ import * as React from "react";
 import "../styles/book.css";
 import { bookForms, IbookList } from "../typings/bookForm";
 import Navbar from "./Navbar";
-import { getDocs, addDoc, collection, Timestamp, db } from "../service/config";
+import {
+  getDocs,
+  addDoc,
+  collection,
+  Timestamp,
+  db,
+  auth,
+  onSnapshot,
+} from "../service/config";
 import Update from "./ Update";
 import Delete from "./Delete";
 // exteranl imports of resources
@@ -31,7 +39,7 @@ const Book: React.FC<IBookProps> = () => {
     const { name, value } = event.currentTarget;
     setBook((previousBook) => ({
       ...previousBook,
-      author: "romeus clarens",
+      author: `${auth.currentUser?.displayName}`,
       [name]: value,
     }));
   };
@@ -55,7 +63,7 @@ const Book: React.FC<IBookProps> = () => {
   };
 
   React.useEffect(() => {
-    const allbooks = async () => {
+    /* const allbooks = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "books"));
         const books = querySnapshot.docs.map((doc) => ({
@@ -69,7 +77,24 @@ const Book: React.FC<IBookProps> = () => {
         console.error(error);
       }
     };
-    allbooks();
+    allbooks(); */
+    const allBooks = async () => {
+      try {
+        onSnapshot(collection(db, "books"), (querySnapshot) => {
+          const books = querySnapshot.docs.map((book) => ({
+            ...book.data(),
+            date_publish: "1 year ago",
+            id: book.id,
+          })) as IbookList[];
+          setBookList(books);
+          console.log(books);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    allBooks();
   }, []);
 
   return (
@@ -130,7 +155,12 @@ const Book: React.FC<IBookProps> = () => {
                   <div className="bookFrame" key={index}>
                     <div className="left-side">
                       <div className="author-date">
-                        <span className="author">{book.author}</span>
+                        <span
+                          className="author"
+                          style={{ textTransform: "capitalize" }}
+                        >
+                          {book.author}
+                        </span>
                         <span className="date"> .{book.date_publish}</span>
                       </div>
                       <div className="book-title">
