@@ -15,7 +15,7 @@ import {
     orderBy,
     onSnapshot,
     doc, 
- } from "firebase/firestore"
+ } from "firebase/firestore";
 import {
  getAuth, 
  onAuthStateChanged, 
@@ -24,10 +24,11 @@ import {
  updatePhoneNumber, 
  signOut, 
  signInWithPopup,
+ updateProfile,
  GoogleAuthProvider,
  FacebookAuthProvider
  } from "firebase/auth";
-import { getStorage } from "firebase/storage"
+import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage"
 import { getMessaging } from "firebase/messaging"
 
 
@@ -49,7 +50,7 @@ const app = initializeApp(firebaseConfig)
 /* const storageRef = ref(storage)
 // navigate to a location lower in the tree
 const booksRef = ref(storageRef, "book")
-// now instead of pointint to a directory, we're pointing to specific file
+// now instead of pointing to a directory, we're pointing to specific file
 const bigThinking = ref(storageRef, "book/bigthinking.png") */
 
 // initialize the app authentication
@@ -63,10 +64,14 @@ const messaging = getMessaging(app)
 // initialize the app analytics
 const analytics = getAnalytics(app)
 
+// create a reference to the storage service
+const storageRef = ref(storage);
+
 // detect user presence in the application
 onAuthStateChanged(auth, user => {
     if(user) {
         console.log("user's well authenticated")
+        console.log("user photo url : ",user.photoURL)
     } else {
         console.log("sorry, user isn't authenticated")
     }
@@ -83,6 +88,7 @@ export {
     signInWithPopup,
     GoogleAuthProvider,
     FacebookAuthProvider,
+    updateProfile,
     // cloud firestore database-related imports
     db,
     getDoc,
@@ -95,11 +101,16 @@ export {
     where,
     orderBy,
     onSnapshot,
-    storage,
     Timestamp,
     FieldValue,
     doc,
-    //
+    // Cloud storage
+    storage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    storageRef,
+    // Cloud messaging
     messaging,
     analytics,
 }

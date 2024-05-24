@@ -10,6 +10,7 @@ import {
   Timestamp,
   db,
   auth,
+  query,
   onSnapshot,
 } from "../service/config";
 import Update from "./ Update";
@@ -30,6 +31,8 @@ const Book: React.FC<IBookProps> = () => {
     state: "create",
   });
 
+  const [picture, setPicture] = React.useState<string>("");
+
   const [open, setOpen] = React.useState<boolean>(false);
 
   const [bookList, setBookList] = React.useState<IbookList[]>([]);
@@ -46,6 +49,7 @@ const Book: React.FC<IBookProps> = () => {
 
   const createBook = async () => {
     try {
+      if (book.state === "search") return null;
       const docRef = await addDoc(collection(db, "books"), {
         author: book.author,
         title: book.title,
@@ -99,7 +103,7 @@ const Book: React.FC<IBookProps> = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar picture={picture} setPicture={setPicture} />
       {open && <Update id={bookId} setOpen={setOpen} />}
       <div className="main">
         <div className="bookFrame">
@@ -151,38 +155,49 @@ const Book: React.FC<IBookProps> = () => {
                 <label htmlFor="search">Search</label>
               </div>
               <div className="books">
-                {bookList.map((book, index) => (
-                  <div className="bookFrame" key={index}>
-                    <div className="left-side">
-                      <div className="author-date">
-                        <span
-                          className="author"
-                          style={{ textTransform: "capitalize" }}
-                        >
-                          {book.author}
-                        </span>
-                        <span className="date"> .{book.date_publish}</span>
+                {bookList
+                  .filter((books) =>
+                    book.title.toLowerCase() === ""
+                      ? books
+                      : book.title.toLowerCase() != "" &&
+                        book.state === "search"
+                      ? books.title
+                          .toLowerCase()
+                          .includes(book.title.toLowerCase())
+                      : books
+                  )
+                  .map((book, index) => (
+                    <div className="bookFrame" key={index}>
+                      <div className="left-side">
+                        <div className="author-date">
+                          <span
+                            className="author"
+                            style={{ textTransform: "capitalize" }}
+                          >
+                            {book.author}
+                          </span>
+                          <span className="date"> .{book.date_publish}</span>
+                        </div>
+                        <div className="book-title">
+                          <strong className="title">{book.title}</strong>
+                        </div>
                       </div>
-                      <div className="book-title">
-                        <strong className="title">{book.title}</strong>
+                      <div className="right-side">
+                        <div className="update">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setOpen(true);
+                              setBookId(book.id);
+                            }}
+                          >
+                            <FontAwesomeIcon className="upd" icon={faPen} />
+                          </button>
+                        </div>
+                        <Delete id={book.id} />
                       </div>
                     </div>
-                    <div className="right-side">
-                      <div className="update">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setOpen(true);
-                            setBookId(book.id);
-                          }}
-                        >
-                          <FontAwesomeIcon className="upd" icon={faPen} />
-                        </button>
-                      </div>
-                      <Delete id={book.id} />
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </form>
