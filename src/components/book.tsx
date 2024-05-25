@@ -48,6 +48,7 @@ const Book: React.FC<IBookProps> = () => {
   };
 
   const createBook = async () => {
+    setBook((previousBook) => ({ ...previousBook, title: "" }));
     try {
       if (book.state === "search") return null;
       const docRef = await addDoc(collection(db, "books"), {
@@ -57,7 +58,7 @@ const Book: React.FC<IBookProps> = () => {
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {
-      console.error(error);
+      throw new Error(`${error}`);
     }
   };
 
@@ -87,7 +88,11 @@ const Book: React.FC<IBookProps> = () => {
         onSnapshot(collection(db, "books"), (querySnapshot) => {
           const books = querySnapshot.docs.map((book) => ({
             ...book.data(),
-            date_publish: "1 year ago",
+            date_publish: `${
+              (book.data().date_created.seconds +
+                book.data().date_created.nanoseconds / 1000000000) *
+              1000
+            }`,
             id: book.id,
           })) as IbookList[];
           setBookList(books);
@@ -100,6 +105,11 @@ const Book: React.FC<IBookProps> = () => {
 
     allBooks();
   }, []);
+
+  const convertdate = (milliseconds: string) => {
+    const date = dayjs(new Date(parseInt(milliseconds))).fromNow();
+    return date;
+  };
 
   return (
     <>
@@ -176,7 +186,10 @@ const Book: React.FC<IBookProps> = () => {
                           >
                             {book.author}
                           </span>
-                          <span className="date"> .{book.date_publish}</span>
+                          <span className="date" style={{ fontSize: "0.8rem" }}>
+                            {" . "}
+                            {convertdate(book.date_publish)}
+                          </span>
                         </div>
                         <div className="book-title">
                           <strong className="title">{book.title}</strong>

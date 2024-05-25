@@ -15,6 +15,8 @@ import { User } from "../typings/user";
 interface ILoginProps {}
 
 const RegisterPage: React.FC<ILoginProps> = () => {
+  const [loading, setLoading] = React.useState<boolean>(false);
+
   const navigate: NavigateFunction = useNavigate();
   const [userInfo, setUserInfo] = React.useState<User>({
     email: "",
@@ -61,6 +63,7 @@ const RegisterPage: React.FC<ILoginProps> = () => {
 
   const signInwithgoogle = async () => {
     try {
+      setLoading(true);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       if (result.user) {
@@ -70,6 +73,7 @@ const RegisterPage: React.FC<ILoginProps> = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const siginwithfacebook = async () => {
@@ -142,26 +146,6 @@ const RegisterPage: React.FC<ILoginProps> = () => {
                   />
                 </label>
               </div>
-              <div className="third_field" style={{ marginBlockStart: "10px" }}>
-                <label htmlFor="">
-                  Enter your PhoneNumber
-                  <br />
-                  <input
-                    placeholder="PhoneNumber..."
-                    type="number"
-                    inputMode="numeric"
-                    name="phoneNumber"
-                    id={`phoneNumber_${ID}`}
-                    onChange={onChange}
-                    value={userInfo.phoneNumber}
-                    style={{
-                      marginBlockStart: "4px",
-                      paddingBlock: "10px",
-                      width: "250px",
-                    }}
-                  />
-                </label>
-              </div>
               <div className="" style={{ marginBlockStart: "18px" }}>
                 <div className="create-account">
                   <span className="login-text">already register?</span>
@@ -183,7 +167,7 @@ const RegisterPage: React.FC<ILoginProps> = () => {
                   </button>
                 </div>
                 <button className="submit" type="submit">
-                  Register
+                  {loading ? "loading..." : "Register"}
                 </button>
               </div>
             </form>

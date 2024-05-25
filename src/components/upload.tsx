@@ -11,12 +11,13 @@ import {
   uploadBytes,
   updateProfile,
   auth,
+  getDownloadURL,
 } from "../service/config";
 
 const Upload: React.FC<{
-  open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ open, setOpen }): JSX.Element => {
+  setPicture: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ setOpen, setPicture }): JSX.Element => {
   const [image, setImage] = React.useState<File | undefined>();
 
   const [previewImage, setPreviewImage] = React.useState<string>("");
@@ -54,7 +55,9 @@ const Upload: React.FC<{
           photoURL: file.metadata.fullPath,
         });
         setLoading(false);
-        console.log(file);
+        const url = await getDownloadURL(file.ref);
+        setPicture(url);
+        setOpen(false);
       }
     } catch (error) {
       console.log(error);

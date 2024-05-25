@@ -8,6 +8,7 @@ import { User } from "../typings/user";
 import { auth, signInWithEmailAndPassword } from "../service/config";
 
 const LoginPage: React.FC = () => {
+  const [loading, setLoading] = React.useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
   const [userInfo, setUserInfo] = React.useState<
     Pick<User, "email" | "password">
@@ -24,6 +25,7 @@ const LoginPage: React.FC = () => {
   const ID = React.useId();
 
   const SignIn = async (data: { email: string; password: string }) => {
+    setLoading(true);
     try {
       const credential = await signInWithEmailAndPassword(
         auth,
@@ -38,6 +40,7 @@ const LoginPage: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -120,7 +123,7 @@ const LoginPage: React.FC = () => {
                   </button>
                 </div>
                 <button className="submit" type="submit">
-                  LogIn
+                  {loading ? "loading..." : "LogIn"}
                 </button>
               </div>
             </form>
