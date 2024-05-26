@@ -4,13 +4,13 @@ import "../styles/book.css";
 import { bookForms, IbookList } from "../typings/bookForm";
 import Navbar from "./Navbar";
 import {
-  getDocs,
+  //getDocs,
   addDoc,
   collection,
   Timestamp,
   db,
   auth,
-  query,
+  //query,
   onSnapshot,
 } from "../service/config";
 import Update from "./ Update";
